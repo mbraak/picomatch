@@ -1,8 +1,6 @@
 'use strict';
 
-const { version } = process;
 const assert = require('assert');
-const utils = require('../lib/utils');
 const { isMatch } = require('..');
 
 describe('regex features', () => {
@@ -18,18 +16,10 @@ describe('regex features', () => {
 
   describe('regex lookarounds', () => {
     it('should support regex lookbehinds', () => {
-      if (utils.supportsLookbehinds()) {
-        assert(isMatch('foo/cbaz', 'foo/*(?<!d)baz'));
-        assert(!isMatch('foo/cbaz', 'foo/*(?<!c)baz'));
-        assert(!isMatch('foo/cbaz', 'foo/*(?<=d)baz'));
-        assert(isMatch('foo/cbaz', 'foo/*(?<=c)baz'));
-      }
-    });
-
-    it('should throw an error when regex lookbehinds are used on an unsupported node version', () => {
-      Reflect.defineProperty(process, 'version', { value: 'v6.0.0' });
-      assert.throws(() => isMatch('foo/cbaz', 'foo/*(?<!c)baz'), /Node\.js v10 or higher/);
-      Reflect.defineProperty(process, 'version', { value: version });
+      assert(isMatch('foo/cbaz', 'foo/*(?<!d)baz'));
+      assert(!isMatch('foo/cbaz', 'foo/*(?<!c)baz'));
+      assert(!isMatch('foo/cbaz', 'foo/*(?<=d)baz'));
+      assert(isMatch('foo/cbaz', 'foo/*(?<=c)baz'));
     });
   });
 
